@@ -156,7 +156,6 @@ int dequeue() {
 	front->prev = NULL;
 	int element = temp->data;
 	free(temp);
-	length--;
 	return element;
 }
 
