@@ -9,7 +9,6 @@ struct Node {
 };
 
 typedef struct Node Node;
-
 Node* front = NULL, *rear = NULL;
 int length = 0;
 
