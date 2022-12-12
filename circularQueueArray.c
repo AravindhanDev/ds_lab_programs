@@ -3,7 +3,7 @@
 #define SIZE 5
 
 void enqueue(int*, int);
-int dequeue(int*);
+int dequeue(int*);  
 bool isFull(int*);
 bool isEmpty(int*);
 void displayQueue(int*);
