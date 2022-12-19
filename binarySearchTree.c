@@ -21,20 +21,141 @@ void postOrder(Node*);
 bool search(Node*, int);
 int findHeight(Node*);
 int max(int, int);
+bool isEmpty(Node*);
 
 void main() {
+	int choice;
 	Node* root = NULL;
-	root = insert(root, 8);
-	insert(root, 3);
-	insert(root, 1);
-	insert(root, 6);
-	insert(root, 7);
-	insert(root, 10);
-	insert(root, 17);
-	insert(root, 4);
-	inOrder(root);
-	preOrder(root);
-	postOrder(root);
+	printf("\nBinary Search Tree Implementation\n");
+	while (true) {
+		printf("\n1) Insert");
+		printf("\n2) Delete");
+		printf("\n3) InOrder");
+		printf("\n4) PreOrder");
+		printf("\n5) PostOrder");
+		printf("\n6) Height of tree");
+		printf("\n7) Minimum value node in tree");
+		printf("\n8) Maximum value node in tree");
+		printf("\n9) IsEmpty");
+		printf("\n10) Search");
+		printf("\nEnter choice ");
+		scanf("%d", &choice);
+		switch(choice) {
+			case 1: {
+				int value;
+				printf("Enter value to be inserted ");
+				scanf("%d", &value);
+				root = insert(root, value);
+				printf("%d, inserted\n", value);
+				break;
+			}
+
+			case 2: {
+				int value;
+				printf("Enter value to be deleted ");
+				scanf("%d", &value);
+				root = delete(root, value);
+				printf("%d, deleted\n", value);
+				break;
+			}
+
+			case 3: {
+				inOrder(root);
+				printf("\n");
+				break;
+			}
+
+			case 4: {
+				preOrder(root);
+				printf("\n");
+				break;
+			}
+
+			case 5: {
+				postOrder(root);
+				printf("\n");
+				break;
+			}
+
+			case 6: {
+				int height = findHeight(root);
+				printf("Height of tree is %d\n", height);
+				break;
+			}
+
+			case 7: {
+				Node* minNode = minValueNode(root);
+				printf("Min node is %d\n", minNode->data);
+				break;
+			}
+
+			case 8: {
+				Node* maxNode = maxValueNode(root);
+				printf("Min node is %d\n", maxNode->data);
+				break;
+			}
+
+			case 9: {
+				if (isEmpty(root)) {
+					printf("Tree is empty\n");
+				} else {
+					printf("Tree is not empty\n");
+				}
+				break;
+			}
+
+			case 10: {
+				int value;
+				printf("Enter value ");
+				scanf("%d", &value);
+				if (search(root, value)) {
+					printf("%d, exists\n", value);
+				} else {
+					printf("%d, not exists\n", value);
+				}
+				break;
+			}
+			
+			default: break;
+		}
+	}
+	// 8, 2, 1, 6, 7, 10, 17, 4
+}
+
+Node* insert(Node* root, int value) {
+	if (root == NULL) return createNode(value);
+	if (root->data > value) root->left = insert(root->left, value);
+	else root->right = insert(root->right, value);
+	return root;
+}
+
+Node* delete(Node* root, int value) {
+	if (root == NULL) return root;
+	if (value < root->data) {
+		root->left = delete(root->left, value);
+	}
+	else if (value > root->data) {
+		root->right = delete(root->right, value);
+	}
+	else {
+		if (root->left == NULL) {
+			Node* temp = root->right;
+			free(root);
+			return temp;
+		}
+		else if (root->right == NULL) {
+			Node* temp = root->left;
+			free(root);
+			return temp;
+		}
+		Node* temp = minValueNode(root->right);
+		root->data = temp->data;
+		root->right = delete(root->right, temp->data);
+	}
+}
+
+bool isEmpty(Node* root) {
+	return root == NULL;
 }
 
 bool search(Node* root, int value) {
@@ -96,36 +217,4 @@ void preOrder(Node* root) {
 	printf("%d ", root->data);
 	preOrder(root->left);
 	preOrder(root->right);
-}
-
-Node* insert(Node* root, int value) {
-	if (root == NULL) return createNode(value);
-	if (root->data > value) root->left = insert(root->left, value);
-	else root->right = insert(root->right, value);
-	return root;
-}
-
-Node* delete(Node* root, int value) {
-	if (root == NULL) return root;
-	if (value < root->data) {
-		root->left = delete(root->left, value);
-	}
-	else if (value > root->data) {
-		root->right = delete(root->right, value);
-	}
-	else {
-		if (root->left == NULL) {
-			Node* temp = root->right;
-			free(root);
-			return temp;
-		}
-		else if (root->right == NULL) {
-			Node* temp = root->left;
-			free(root);
-			return temp;
-		}
-		Node* temp = minValueNode(root->right);
-		root->data = temp->data;
-		root->right = delete(root->right, temp->data);
-	}
 }
