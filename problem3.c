@@ -4,16 +4,15 @@
 int insert(int*, int, int);
 int delete(int*, int, int);
 int search(int*, int, int);
-int insertDoubleHashing(int*, int, int, int);
-int deleteDoubleHashing(int*, int, int, int);
-int searchDoubleHashing(int*, int, int, int);
+int insertQuadraticProbing(int*, int, int, int);
+int deleteQuadraticProbing(int*, int, int, int);
+int searchQuadraticProbing(int*, int, int, int);
 void display(int*, int);
 int h1(int);
-int h2(int);
 
 void main() {
     int choice;
-    printf("Hash Table Implementation (Double Hashing)\n");
+    printf("Hash Table Implementation (Quadratic Probing)\n");
     printf("\n");
     int hashTable[10] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     int size = 10;
@@ -80,7 +79,7 @@ int insert(int* hashTable, int size, int value) {
         hashTable[u] = value;
         return 1;
     }
-    return insertDoubleHashing(hashTable, u, size, value);
+    return insertQuadraticProbing(hashTable, u, size, value);
 }
 
 int delete(int* hashTable, int size, int value) {
@@ -89,7 +88,7 @@ int delete(int* hashTable, int size, int value) {
         hashTable[u] = -1;
         return 1;
     }
-    return deleteDoubleHashing(hashTable, u, size, value);
+    return deleteQuadraticProbing(hashTable, u, size, value);
 }
 
 int search(int* hashTable, int size, int value) {
@@ -97,13 +96,12 @@ int search(int* hashTable, int size, int value) {
     if (hashTable[u] == value) {
         return 1;
     }
-    return searchDoubleHashing(hashTable, u, size, value);
+    return searchQuadraticProbing(hashTable, u, size, value);
 }
 
-int insertDoubleHashing(int* hashTable, int u, int size, int value) {
-    int v = h2(value);
+int insertQuadraticProbing(int* hashTable, int u, int size, int value) {
     for (int i = 0; i < size; i++) {
-        int newkey = (u + v * i) % size;
+        int newkey = (u + (i*i)) % size;
         if (hashTable[newkey] == -1) {
             hashTable[newkey] = value;
             return 1;
@@ -112,10 +110,9 @@ int insertDoubleHashing(int* hashTable, int u, int size, int value) {
     return 0;
 }
 
-int deleteDoubleHashing(int* hashTable, int u, int size, int value) {
-    int v = h2(value);
+int deleteQuadraticProbing(int* hashTable, int u, int size, int value) {
     for (int i = 0; i < size; i++) {
-        int newkey = (u + v * i) % size;
+        int newkey = (u + (i*i)) % size;
         if (hashTable[newkey] == value) {
             hashTable[newkey] = -1;
             return 1;
@@ -124,10 +121,9 @@ int deleteDoubleHashing(int* hashTable, int u, int size, int value) {
     return 0;
 }
 
-int searchDoubleHashing(int* hashTable, int u, int size, int value) {
-    int v = h2(value);
+int searchQuadraticProbing(int* hashTable, int u, int size, int value) {
     for (int i = 0; i < size; i++) {
-        int newkey = (u + v * i) % size;
+        int newkey = (u + (i*i)) % size;
         if (hashTable[newkey] == value) {
             return 1;
         }
@@ -143,9 +139,5 @@ void display(int* hashTable, int size) {
 }
 
 int h1(int value) {
-    return value % 11;
-}
-
-int h2(int value) {
-    return value % 5;
+    return value % 10;
 }
