@@ -1,0 +1,6 @@
+file1 = open(r"test/rev_1.txt", "r")
+res = file1.read()
+print(res)
+file2 = open(r'test/rev_2.txt', 'w')
+file2.write(res[::-1])
+file2.close()

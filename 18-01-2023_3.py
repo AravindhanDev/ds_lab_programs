@@ -1,0 +1,7 @@
+file1 = open(r'test/lower.txt', 'r')
+file2 = open(r'test/upper.txt', 'w')
+content = file1.read()
+file2.write(content.upper())
+print("Operation successfully made")
+file1.close()
+file2.close()

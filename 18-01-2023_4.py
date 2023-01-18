@@ -1,0 +1,8 @@
+file1 = open(r"test/fullstop.txt", "r")
+file2 = open(r"test/comma.txt", "w")
+content = file1.read()
+newStr = content.replace('.', ',')
+file2.write(newStr)
+print("Operation completed!!")
+file1.close()
+file2.close()
